@@ -4,10 +4,12 @@ from copy import deepcopy
 
 class State:
     def __init__(self, other = None):
-        self.player1
-        self.player2
+        self.player1 = None
+        self.player2 = None
         self.piece1 = pieces.Queen
-        self.piece2, self.piece3, self.piece4 = 'D'
+        self.piece2 = "D"
+        self.piece3 = "D"
+        self.piece4 = "D"
         self.piece5, self.piece6, self.piece7, self.piece8, self.piece9 = 'W'
         self.size = 5
         self.spaces = '.'
