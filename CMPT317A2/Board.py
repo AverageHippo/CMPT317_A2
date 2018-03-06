@@ -13,7 +13,8 @@ class Board:
         self.p2p4 = "W4"
         self.p2p5 = "W5"
 
-        self.board = [[0,0,0, self.p1p1, 0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+        self.board = [[0,0,0, self.p1p1, 0,0],[0,self.p1p2,self.p1p3,self.p1p4,0],[0,0,0,0,0],[0,0,0,0,0],[self.p2p1, self.p2p2, self.p2p3,
+                                                                                   self.p2p4, self.p2p5,]]
 
 
 
