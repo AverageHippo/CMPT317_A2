@@ -10,7 +10,7 @@ class State:
         self.piece2 = "D"
         self.piece3 = "D"
         self.piece4 = "D"
-        self.piece5, self.piece6, self.piece7, self.piece8, self.piece9 = 'W'
+        self.piece5, self.piece6, self.piece7, self.piece8, self.piece9 = 'W', "W",
         self.size = 5
         self.spaces = '.'
         self.board = {}
