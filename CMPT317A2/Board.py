@@ -2,6 +2,7 @@ from copy import deepcopy
 
 
 class Board:
+
     def __init__(self):
         self.p1p1 = "Q"
         self.p1p2 = "D1"
@@ -12,10 +13,8 @@ class Board:
         self.p2p3 = "W3"
         self.p2p4 = "W4"
         self.p2p5 = "W5"
-
         # self.board = [0,0,0, self.p1p1, 0,0, 0,self.p1p2,self.p1p3,self.p1p4,0,0,0,0,0,0, 0,0,0,0,0, self.p2p1, self.p2p2, self.p2p3,
         #                                                                            self.p2p4, self.p2p5,]
-
 
         row , col = 5,5
         self.board = [["*" for row in range(row)] for col in range(col)]
@@ -56,12 +55,10 @@ class Board:
             p = self.p2p4
         elif piece=="W5":
             p = self.p2p5
-
         return p
 
 
     def isPossibleMove(self, p, positionX, positionY):
-
         i ,j = self.getIndex(p)
 
         if (positionX or positionY) < 0:
