@@ -88,7 +88,7 @@ class Board:
             elif opening ==False:
                 # If the position we want to move is already taken, So capture time
                 # Cannot capture the same side pawns, Thats canibilism
-                if p == ("W" or "W1" or "W2" or "W3" or "W4" or "W5"):
+                if p == "W" or  p == "W1" or  p == "W2" or  p == "W3" or  p == "W4" or  p == "W5":
                     print("-- Want to capture your own pawn ( Whites ) -- LOLOLOL")
 
                 # only when the position we ant to move is diagional and not whites and there is a pawn
