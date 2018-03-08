@@ -98,7 +98,8 @@ class Board:
                         and (positionX == i - 1 and positionY == j+1)\
                         and (p is not "W"  or p is not "W1" or p is not "W2" or p is not  "W3" or p is not  "W4" or p is not  "W5"):
                     self.capture(p, positionX, positionY, currentPlace)
-                    print("Inside capture function")
+                    print("eating Q or D")
+                    return True
 
             return False
 
@@ -116,6 +117,11 @@ class Board:
                 print("Q is trying to eat other pawns in same player. ")
                 return False
 
+            elif opening==False and (currentPlace is "W" or currentPlace is "W1" or currentPlace is "W2" or
+                                       currentPlace is  "W3" or currentPlace is  "W4" or currentPlace is "W5"):
+                self.capture(p, positionX, positionY, currentPlace)
+                print("eating W")
+                return True
             else:
                 return False
 
@@ -133,6 +139,11 @@ class Board:
                     currentPlace is "D":
                 print("Dragon is trying to eat other pawns in same player. ")
                 return False
+            elif opening==False and (currentPlace is "W" or currentPlace is "W1" or currentPlace is "W2" or
+                                       currentPlace is  "W3" or currentPlace is  "W4" or currentPlace is "W5"):
+                self.capture(p, positionX, positionY, currentPlace)
+                print("eating W")
+                return True
             else:
                 return False
 
@@ -142,7 +153,10 @@ class Board:
 
 
     def capture(self, attacker, positionX, positionY, enemny):
+        captured = {}
+
         print("Attack with : ", attacker, "Capture : ", enemny, "In position :", positionX, positionY)
+        return True
 
 
     def checkOpening(self, positionX, positionY):
@@ -198,7 +212,7 @@ if __name__ == '__main__':
 
     # Movement for Dragon Test
     B = Board()
-    B.printboard()
+    # B.printboard()
     # Possible moves for D1
     B.move("D1", 1,0)
     B.move("D1", 1,1)
@@ -206,8 +220,9 @@ if __name__ == '__main__':
     B.move("D3", 1,4)
     B.move("D2", 0,2)
     B.move("D2", 2,2)
-    B.move("D2", 1,2)
-    B.move("D2", 1,3)
+    B.move("D2", 3,2)
+    B.move("D2", 4,2)
+
     # # Not possible moves
     # B.move("Q", 1,1)
     # B.move("Q", 1,2)
