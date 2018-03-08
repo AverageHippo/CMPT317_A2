@@ -77,6 +77,7 @@ class Board:
 
         # Possible moves or Whites
         elif p =='W2' or p =='W1' or p =='W3' or p =='W4' or p =='W5' or p == 'W' :
+
             if (positionX == i + 1 or positionX == i-1 or positionX == i) \
                     and (opening==True) \
                     and (positionY == j-1 or positionY == j+1 or positionY ==j)\
@@ -84,22 +85,29 @@ class Board:
                     and not (positionX == i - 1 and positionY == j-1)\
                     and not (positionX == i + 1 and positionY == j-1)\
                     and not (positionX == i - 1 and positionY == j+1):
+
                 return True
+
             elif opening ==False:
+
                 # If the position we want to move is already taken, So capture time
                 # Cannot capture the same side pawns, Thats canibilism
-                if p == "W" or  p == "W1" or  p == "W2" or  p == "W3" or  p == "W4" or  p == "W5":
+                if (currentPlace == "W" or  currentPlace == "W1" or  currentPlace == "W2" or  currentPlace == "W3" or  currentPlace == "W4" or  currentPlace == "W5"):
                     print("-- Want to capture your own pawn ( Whites ) -- LOLOLOL")
 
+                    return False
+
                 # only when the position we ant to move is diagional and not whites and there is a pawn
-                elif(positionX == i + 1 and positionY == j+1)\
-                        and (positionX == i - 1 and positionY == j-1)\
-                        and (positionX == i + 1 and positionY == j-1)\
-                        and (positionX == i - 1 and positionY == j+1)\
-                        and (p is not "W"  or p is not "W1" or p is not "W2" or p is not  "W3" or p is not  "W4" or p is not  "W5"):
+                elif  (positionX == i + 1 and positionY == j+1)\
+                        or (positionX == i - 1 and positionY == j-1)\
+                        or (positionX == i + 1 and positionY == j-1)\
+                        or (positionX == i - 1 and positionY == j+1)\
+                        and ((currentPlace is "Q")  or (currentPlace is "D1") or (currentPlace is "D2") or (currentPlace is "D3")):
                     self.capture(p, positionX, positionY, currentPlace)
                     print("eating Q or D")
                     return True
+                else:
+                    return False
 
             return False
 
@@ -210,19 +218,19 @@ class Board:
 
 if __name__ == '__main__':
 
+
     # Movement for Dragon Test
     B = Board()
-    # B.printboard()
+    B.printboard()
     # Possible moves for D1
-    B.move("D1", 1,0)
-    B.move("D1", 1,1)
-    B.move("D1", 0,2) #cannot
-    B.move("D3", 1,4)
-    B.move("D2", 0,2)
-    B.move("D2", 2,2)
-    B.move("D2", 3,2)
-    B.move("D2", 4,2)
-
+    # B.move("D1", 1,0)
+    # B.move("D1", 1,1)
+    # B.move("D1", 0,2) #cannot
+    # B.move("D3", 1,4)
+    # B.move("D2", 0,2)
+    # B.move("D2", 2,2)
+    # B.move("D2", 1,2)
+    # B.move("D2", 1,3)
     # # Not possible moves
     # B.move("Q", 1,1)
     # B.move("Q", 1,2)
@@ -266,6 +274,29 @@ if __name__ == '__main__':
     # B.move("Q", 1,2)
     # B.move("Q", 1,3)
 
+    # checking to see if Wight is working or not
+    B.move("W1", 3,0)
+    B.move("W2", 3,1)
+    B.move("W3", 3,2)
+    B.move("W4", 3,3)
+    B.move("W5", 3,4)
+    B.printboard()
+    B.move("W1", 2, 0)
+    B.move("W2", 2, 1)
+    B.move("W3", 2, 2)
+    B.move("W4", 2, 3)
+    B.move("W5", 2, 4)
+    B.printboard()
+    print(B.checkOpening(1,1))
+    B.move("W1", 1, 1)
+    B.move("W4", 1, 2)
+    B.printboard()
+
+    # B.move("W3", 1,4)
+    # B.move("D", 0,2)
+    # B.move("D2", 2,2)
+    # B.move("D2", 1,2)
+    # B.move("D2", 1,3)
 
 
 
