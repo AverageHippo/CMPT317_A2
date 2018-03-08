@@ -96,7 +96,7 @@ class Board:
                         and (positionX == i - 1 and positionY == j-1)\
                         and (positionX == i + 1 and positionY == j-1)\
                         and (positionX == i - 1 and positionY == j+1)\
-                        and p is not ("W" or "W1" or "W2" or "W3" or "W4" or "W5"):
+                        and (p is not "W"  or p is not "W1" or p is not "W2" or p is not  "W3" or p is not  "W4" or p is not  "W5"):
                     self.capture(p, positionX, positionY, currentPlace)
                     print("Inside capture function")
 
@@ -108,11 +108,14 @@ class Board:
             if (positionX == i + 1 or positionX == i-1 or positionX == i ) \
                     and (positionY == j-1 or positionY == j+1 or positionY ==j)\
                     and opening == True\
-                    and (currentPlace is not ("Q" or "D1" or "D2" or "D3" or "D")):
+                    and (currentPlace is not "Q" or currentPlace is not  "D1" or currentPlace is not "D2" or\
+                         currentPlace is not "D3" or currentPlace is not  "D"):
                 return True
-            elif opening == False and (currentPlace is ("Q" or "D1" or "D2" or "D3" or "D")):
+            elif opening == False and (currentPlace is "Q" or currentPlace is "D1" or currentPlace is "D2" or
+                                       currentPlace is  "D3" or currentPlace is  "D"):
                 print("Q is trying to eat other pawns in same player. ")
                 return False
+
             else:
                 return False
 
@@ -143,7 +146,6 @@ class Board:
 
 
     def checkOpening(self, positionX, positionY):
-
 
         if self.board[positionX][positionY] == "W1":
             return "W1" , False
