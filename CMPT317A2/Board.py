@@ -249,9 +249,7 @@ class Board:
 
     def isAlive(self, player1):
 
-
         try:
-
             x,y = self.getIndex(player1)
             return True, x, y
 
@@ -261,6 +259,21 @@ class Board:
 
 
 
+    def win(self):
+        if(self.board[4][0] or self.board[4][1] or self.board[4][2] or self.board[4][3] or self.board[4][4]) == "Q":
+            return True
+        elif (self.board[0][0] or self.board[0][1] or self.board[0][2] or self.board[0][3] or self.board[0][4]) == "W1":
+            return True
+        elif (self.board[0][0] or self.board[0][1] or self.board[0][2] or self.board[0][3] or self.board[0][4]) == "W2":
+            return True
+        elif (self.board[0][0] or self.board[0][1] or self.board[0][2] or self.board[0][3] or self.board[0][4]) == "W3":
+            return True
+        elif (self.board[0][0] or self.board[0][1] or self.board[0][2] or self.board[0][3] or self.board[0][4]) == "W4":
+            return True
+        elif (self.board[0][0] or self.board[0][1] or self.board[0][2] or self.board[0][3] or self.board[0][4]) == "W5":
+            return True
+        else:
+            return False
 
 
 if __name__ == '__main__':
@@ -270,8 +283,8 @@ if __name__ == '__main__':
     B = Board()
     B.printboard()
     # Possible moves for D1
-    print("the check", B.checkOpening(3,3))
-    B.move("W5", 3,3)
+    # print("the check", B.checkOpening(3,3))
+    # B.move("W5", 3,3)
     # B.move("D1", 1,0)
     # B.move("D1", 1,1)
     # B.move("D1", 0,2) #cannot
@@ -284,7 +297,8 @@ if __name__ == '__main__':
     # B.move("Q", 1,1)
     # B.move("Q", 1,2)
     # B.move("Q", 1,3)
-
+    # x = B.win()
+    # print(x)
     # B = Board()
     # B.printboard()
     # print("the check", B.checkOpening(3,1))
