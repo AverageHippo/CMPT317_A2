@@ -30,12 +30,16 @@ class Board:
 
 
 
-    def printboard(self):
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                print(self.board[i][j], end='  ')
-            print()
 
+    def create():
+        return Board()
+
+    def printboard(self):
+        # for i in range(len(self.board)):
+        #     for j in range(len(self.board[i])):
+        #         print(self.board[i][j], end='  ')
+        #     print()
+        print(self.board)
 
     def translate(self, piece):
         p = ""
@@ -81,10 +85,10 @@ class Board:
             if (positionX == i + 1 or positionX == i-1 or positionX == i) \
                     and (opening==True) \
                     and (positionY == j-1 or positionY == j+1 or positionY ==j)\
-                    and not (positionX == i + 1 and positionY == j+1)\
-                    and not (positionX == i - 1 and positionY == j-1)\
-                    and not (positionX == i + 1 and positionY == j-1)\
-                    and not (positionX == i - 1 and positionY == j+1):
+                    and (( not (positionX == i + 1 and positionY == j+1)
+                    and not (positionX == i - 1 and positionY == j-1)
+                    and not (positionX == i + 1 and positionY == j-1)
+                    and not (positionX == i - 1 and positionY == j+1))):
 
                 return True
 
@@ -93,7 +97,7 @@ class Board:
                 # If the position we want to move is already taken, So capture time
                 # Cannot capture the same side pawns, Thats canibilism
                 if (currentPlace == "W" or  currentPlace == "W1" or  currentPlace == "W2" or  currentPlace == "W3" or  currentPlace == "W4" or  currentPlace == "W5"):
-                    print("-- Want to capture your own pawn ( Whites ) -- LOLOLOL")
+                    # print("-- Want to capture your own pawn ( Whites ) -- LOLOLOL")
 
                     return False
 
@@ -137,10 +141,12 @@ class Board:
         # Possible moves for Dragon
         elif p == "D1" or  "D2" or "D3"  :
 
+
+
             if (positionX == i + 1 or positionX == i-1 or positionX == i ) \
                     and (positionY == j-1 or positionY == j+1 or positionY ==j)\
                     and opening == True\
-                    and (currentPlace is not "Q" or currentPlace is not "D1" or currentPlace is not  "D2" or\
+                    and (currentPlace is not "Q" or currentPlace is not "D1" or currentPlace is not  "D2" or
                     currentPlace is not "D3" or currentPlace is not "D"):
                 return True
             elif opening == False and currentPlace is "Q" or currentPlace is "D1" or currentPlace is "D2" or currentPlace is "D3" or\
@@ -169,35 +175,45 @@ class Board:
 
     def checkOpening(self, positionX, positionY):
 
-        if self.board[positionX][positionY] == "W1":
-            return "W1" , False
-        elif self.board[positionX][positionY] == "W2":
-            return "W2" , False
-        elif self.board[positionX][positionY] == "W3":
-            return "W3" , False
-        elif self.board[positionX][positionY] == "W4":
-            return "W4" , False
-        elif self.board[positionX][positionY] == "W5":
-            return "W5" , False
-        elif self.board[positionX][positionY] is 'Q':
-            return "Q", False
-        elif self.board[positionX][positionY] is 'D1':
-            return "D1", False
-        elif self.board[positionX][positionY] is 'D2':
-            return "D2", False
-        elif self.board[positionX][positionY] is 'D3':
-            return "D3", False
+        if (positionX or positionY) < 0:
+            print("Position out of bound")
+            return "", True
+        elif (positionX or positionY) > 4:
+            print("Position out of bound")
+            return "", True
         else:
-            return "" , True
+            if self.board[positionX][positionY] == "W1":
+                return "W1" , False
+            elif self.board[positionX][positionY] == "W2":
+                return "W2" , False
+            elif self.board[positionX][positionY] == "W3":
+                return "W3" , False
+            elif self.board[positionX][positionY] == "W4":
+                return "W4" , False
+            elif self.board[positionX][positionY] == "W5":
+                return "W5" , False
+            elif self.board[positionX][positionY] is 'Q':
+                return "Q", False
+            elif self.board[positionX][positionY] is 'D1':
+                return "D1", False
+            elif self.board[positionX][positionY] is 'D2':
+                return "D2", False
+            elif self.board[positionX][positionY] is 'D3':
+                return "D3", False
+            else:
+                return "" , True
 
 
 
 
     def getIndex(self, p):
+
         for i, e in enumerate(self.board):
                 for j, ee in enumerate(e):
                     if p in ee:
                         return i, j
+
+
 
 
 
@@ -209,8 +225,39 @@ class Board:
             print("Move is possible, Moving :", p, "to index : ", positionX,positionY )
             self.board[i][j] = "*"
             self.board[positionX][positionY] = p
+            return True
+
         else:
             print("The Move you requested is not possible")
+            return False
+
+
+    def player1(self, p):
+        if p =='W2' or p =='W1' or p =='W3' or p =='W4' or p =='W5' or p == 'W':
+            return True
+        else:
+            return False
+
+    def player2(self, p):
+        if p =='D1' or p =='D2' or p =='D3' or p =='D' or p =='Q':
+            return True
+        else:
+            return False
+
+
+
+
+    def isAlive(self, player1):
+
+
+        try:
+
+            x,y = self.getIndex(player1)
+            return True, x, y
+
+        except TypeError:
+            print("No such pawn exists")
+            return False
 
 
 
@@ -219,10 +266,12 @@ class Board:
 if __name__ == '__main__':
 
 
-    # Movement for Dragon Test
+    # # Movement for Dragon Test
     B = Board()
     B.printboard()
     # Possible moves for D1
+    print("the check", B.checkOpening(3,3))
+    B.move("W5", 3,3)
     # B.move("D1", 1,0)
     # B.move("D1", 1,1)
     # B.move("D1", 0,2) #cannot
@@ -231,7 +280,7 @@ if __name__ == '__main__':
     # B.move("D2", 2,2)
     # B.move("D2", 1,2)
     # B.move("D2", 1,3)
-    # # Not possible moves
+    # Not possible moves
     # B.move("Q", 1,1)
     # B.move("Q", 1,2)
     # B.move("Q", 1,3)
@@ -275,22 +324,22 @@ if __name__ == '__main__':
     # B.move("Q", 1,3)
 
     # checking to see if Wight is working or not
-    B.move("W1", 3,0)
-    B.move("W2", 3,1)
-    B.move("W3", 3,2)
-    B.move("W4", 3,3)
-    B.move("W5", 3,4)
-    B.printboard()
-    B.move("W1", 2, 0)
-    B.move("W2", 2, 1)
-    B.move("W3", 2, 2)
-    B.move("W4", 2, 3)
-    B.move("W5", 2, 4)
-    B.printboard()
-    print(B.checkOpening(1,1))
-    B.move("W1", 1, 1)
-    B.move("W4", 1, 2)
-    B.printboard()
+    # B.move("W1", 3,0)
+    # B.move("W2", 3,1)
+    # B.move("W3", 3,2)
+    # B.move("W4", 3,3)
+    # B.move("W5", 3,4)
+    # B.printboard()
+    # B.move("W1", 2, 0)
+    # B.move("W2", 2, 1)
+    # B.move("W3", 2, 2)
+    # B.move("W4", 2, 3)
+    # B.move("W5", 2, 4)
+    # B.printboard()
+    # print(B.checkOpening(1,1))
+    # B.move("W1", 1, 1)
+    # B.move("W4", 1, 2)
+    # B.printboard()
 
     # B.move("W3", 1,4)
     # B.move("D", 0,2)
