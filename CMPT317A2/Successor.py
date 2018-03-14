@@ -20,7 +20,7 @@ def successor(state):
                         else:
                             possible = B.isPossibleMove(state, i, x+r,y+c )
                             if possible == True:
-                                print("The player - ", i,  x+r,y+c)
+                                # print("The player - ", i,  x+r,y+c)
                                 newState = deepcopy(state)
                                 newMove = B.move(newState, i,x+r,y+c)
                                 if newMove == True:
@@ -39,7 +39,7 @@ def successor(state):
                         else:
                             possible = B.isPossibleMove(state, i, x+r,y+c )
                             if possible == True:
-                                print("The player - ", i,  x+r,y+c)
+                                # print("The player - ", i,  x+r,y+c)
                                 newState = deepcopy(state)
                                 newMove = B.move(newState, i,x+r,y+c)
                                 if newMove == True:
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     New = B.create()
     # B.move(New, "W1", 3,0)
-    # B.printboard(New)
+    B.printboard(New)
     # B.move(New, "W1", 2,0)
     # B.printboard(New)
     print(" ------", B.whoseTurn(New))

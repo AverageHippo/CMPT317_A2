@@ -1,5 +1,6 @@
 from copy import deepcopy
 from operator import eq
+from random import randint
 
 
 
@@ -128,7 +129,7 @@ class Board:
                         or (positionX == i - 1 and positionY == j+1)\
                         and ((currentPlace is "Q")  or (currentPlace is "D1") or (currentPlace is "D2") or (currentPlace is "D3")):
                     self.capture(p, positionX, positionY, currentPlace)
-                    print("eating Q or D")
+                    # print("eating Q or D")
                     return True
                 else:
                     return False
@@ -146,22 +147,18 @@ class Board:
                 return True
             elif opening == False and (currentPlace is "Q" or currentPlace is "D1" or currentPlace is "D2" or
                                        currentPlace is  "D3" or currentPlace is  "D"):
-                print("Q is trying to eat other pawns in same player. ")
+                # print("Q is trying to eat other pawns in same player. ")
                 return False
 
             elif opening==False and (currentPlace is "W" or currentPlace is "W1" or currentPlace is "W2" or
                                        currentPlace is  "W3" or currentPlace is  "W4" or currentPlace is "W5"):
                 self.capture(p, positionX, positionY, currentPlace)
-                print("eating W")
+                # print("eating W")
                 return True
             else:
                 return False
-
-
         # Possible moves for Dragon
         elif p == "D1" or  "D2" or "D3"  :
-
-
 
             if (positionX == i + 1 or positionX == i-1 or positionX == i ) \
                     and (positionY == j-1 or positionY == j+1 or positionY ==j)\
@@ -171,12 +168,12 @@ class Board:
                 return True
             elif opening == False and currentPlace is "Q" or currentPlace is "D1" or currentPlace is "D2" or currentPlace is "D3" or\
                     currentPlace is "D":
-                print("Dragon is trying to eat other pawns in same player. ")
+                # print("Dragon is trying to eat other pawns in same player. ")
                 return False
             elif opening==False and (currentPlace is "W" or currentPlace is "W1" or currentPlace is "W2" or
                                        currentPlace is  "W3" or currentPlace is  "W4" or currentPlace is "W5"):
                 self.capture(p, positionX, positionY, currentPlace)
-                print("eating W")
+                # print("eating W")
                 return True
             else:
                 return False
@@ -256,15 +253,16 @@ class Board:
     def move(self, piecee, positionX, positionY):
         p = self.translate(piecee)
         i ,j = self.getIndex(p)
+        alive , _,_ = self.isAlive(p)
 
-        if self.isPossibleMove(p,positionX,positionY) == True:
-            print("Move is possible, Moving :", p, "to index : ", positionX,positionY )
+        if self.isPossibleMove(p,positionX,positionY) == True and (alive== True):
+            # print("Move is possible, Moving :", p, "to index : ", positionX,positionY )
             self.board[i][j] = "*"
             self.board[positionX][positionY] = p
             return True
 
         else:
-            print("The Move you requested is not possible")
+            # print("The Move you requested is not possible")
             return False
 
 
@@ -294,13 +292,13 @@ class Board:
 
 
     def utility(self,player):
-        if player == "Q" :
-            return 1
-        if (player == "W1" or player == "W2" or player == "W3" or player == "W4" or player == "W5") :
-            return -1
-        else:
-            return 0
-
+        # if player == "Q" :
+        #     return 1
+        # if (player == "W1" or player == "W2" or player == "W3" or player == "W4" or player == "W5") :
+        #     return -1
+        # else:
+        #     return 0
+        return randint(0, 9)
 
 
     def isTerminal(self):

@@ -7,7 +7,6 @@ def Minimax(start):
     player = B.whoseTurn(start)
 
     def do_minimax(node, counter):
-
         s = B.str(node)
         if s in transpositionTable:
             return transpositionTable[s]
@@ -17,7 +16,6 @@ def Minimax(start):
         else:
             possibilities = S.successor(node)
             values = []
-
             for res_state in possibilities:
                 val, _ = do_minimax(res_state, counter-1)
                 values.append( (val, res_state) )
@@ -32,7 +30,7 @@ def Minimax(start):
         transpositionTable[s] = val, res_state  # store the move and the utility in the tpt
         return val, res_state
 
-    return do_minimax(start, 5)
+    return do_minimax(start, 10)
 
 
 
@@ -62,26 +60,27 @@ def argmin(ns):
     return minv,mins
 
 
-# def playGame(New):
-#
-#     player = B.whoseTurn(New)
-#     B.selectPlayer(New)
-#     while B.utility(New, player) != (1 or 0 or -1):
-#         print("Player", B.whoseTurn(New), "Move")
-#         if B.getHuman(New) == B.whoseTurn(New):
-#             player = B.inputMove(New)
-#         m = Minimax(player)
-#         # print(m)
-#
+def playGame(New):
+
+    player = B.whoseTurn(New)
+    B.selectPlayer(New)
+    while B.utility(New, player) != (1 or 0 or -1):
+        print("Player", B.whoseTurn(New), "Move")
+        if B.getHuman(New) == B.whoseTurn(New):
+            player = B.inputMove(New)
+        m, n = Minimax(player)
+        B.printboard(n)
+
 
 if __name__ == '__main__':
     New = B.create()
+    B.printboard(New)
     # B.togglePlayer(New)
     # print(B.whoseTurn(New))
-    # playGame(New)
-    x,y = Minimax(New)
-    B.printboard(y)
-    x1,y1 = Minimax(y)
-    B.printboard(y1)
+    playGame(New)
+    # x,y = Minimax(New)
+    # B.printboard(y)
+    # x1,y1 = Minimax(y)
+    # B.printboard(y1)
 
 
