@@ -60,6 +60,6 @@ if __name__ == '__main__':
     # B.printboard(New)
     print(" ------", B.whoseTurn(New))
     B.togglePlayer(New)
-    successor(New)
+    print(successor(New))
     B.printboard(New)
 

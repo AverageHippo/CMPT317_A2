@@ -65,11 +65,11 @@ def argmax(ns):
     :return:  the utility,move pair with the highest utility
     """
 
-    maxv,maxm,maxs = ns[0]
+    maxv,maxs = ns[0]
     for v,m,s in ns:
         if v > maxv:
-            maxv,maxm,maxs = v,m,s
-    return maxv,maxm,maxs
+            maxv,maxs = v,s
+    return maxv,maxs
 
 
 def argmin(ns):
@@ -79,11 +79,11 @@ def argmin(ns):
     :return:  the utility,move pair with the lowest utility
     """
 
-    minv,minm,mins = ns[0]
-    for v,m,s in ns:
+    minv,mins = ns[0]
+    for v,s in ns:
         if v < minv:
-            minv,minm,mins = v,m,s
-    return minv,minm,mins
+            minv,mins = v,s
+    return minv,mins
 
 
 
