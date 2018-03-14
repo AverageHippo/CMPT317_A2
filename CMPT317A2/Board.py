@@ -2,9 +2,10 @@ from copy import deepcopy
 from operator import eq
 
 
+
 class Board:
 
-    def __init__(self):
+    def __init__(self, player=1):
         self.p1p1 = "Q"
         self.p1p2 = "D1"
         self.p1p3 = "D2"
@@ -27,19 +28,38 @@ class Board:
         self.board[4][2] = self.p2p3
         self.board[4][3] = self.p2p4
         self.board[4][4] = self.p2p5
+        self.turn = player
+        self.human = None
+        self.AI = None
 
 
 
+    def selectPlayer(self):
+
+        player = input("Select P1 or P2: ")
+        if player == "P1":
+            self.human = 1
+            self.AI = 2
+        elif player == "P2":
+            self.human = 2
+            self.AI = 1
+
+
+    def getHuman(self):
+        return self.human
 
     def create():
         return Board()
 
     def printboard(self):
-        # for i in range(len(self.board)):
-        #     for j in range(len(self.board[i])):
-        #         print(self.board[i][j], end='  ')
-        #     print()
-        print(self.board)
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                print(self.board[i][j], end='  ')
+            print()
+
+
+
+
 
     def translate(self, piece):
         p = ""
@@ -213,8 +233,24 @@ class Board:
                     if p in ee:
                         return i, j
 
+    def inputMove(self):
+        flag = False
+        while flag == False:
+            who = input("Who ")
+            X = int(input("Where in X cordinate"))
+            Y = int(input("Where in Y cordinate"))
+            flag = self.move(who,X,Y)
+        self.togglePlayer()
+        return self
 
 
+
+    def str(self):
+        s = ''
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                s += str(self.board[j][i])
+        return s
 
 
     def move(self, piecee, positionX, positionY):
@@ -246,9 +282,7 @@ class Board:
 
 
 
-
     def isAlive(self, player1):
-
         try:
             x,y = self.getIndex(player1)
             return True, x, y
@@ -259,7 +293,17 @@ class Board:
 
 
 
-    def win(self):
+    def utility(self,player):
+        if player == "Q" :
+            return 1
+        if (player == "W1" or player == "W2" or player == "W3" or player == "W4" or player == "W5") :
+            return -1
+        else:
+            return 0
+
+
+
+    def isTerminal(self):
         if(self.board[4][0] or self.board[4][1] or self.board[4][2] or self.board[4][3] or self.board[4][4]) == "Q":
             return True
         elif (self.board[0][0] or self.board[0][1] or self.board[0][2] or self.board[0][3] or self.board[0][4]) == "W1":
@@ -276,12 +320,40 @@ class Board:
             return False
 
 
+    def togglePlayer(self):
+        if self.turn == 1:
+            self.turn = 2
+        else:
+            self.turn = 1
+
+        return self.turn
+
+
+    def isMinNode(self):
+        if self.turn == 2:
+            return True
+        else:
+            return False
+
+    def isMaxNode(self):
+        if self.turn == 1:
+            return True
+        else:
+            return False
+
+    def whoseTurn(self):
+        return self.turn
+
+
+
 if __name__ == '__main__':
 
 
     # # Movement for Dragon Test
     B = Board()
     B.printboard()
+    B.inputMove()
+
     # Possible moves for D1
     # print("the check", B.checkOpening(3,3))
     # B.move("W5", 3,3)

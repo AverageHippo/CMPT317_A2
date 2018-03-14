@@ -1,52 +1,55 @@
 from Board import Board as B
+import Successor as S
 
 def Minimax(start):
 
-    def commenceMinimax(node):
-        if S in transpose:
-            return transpose[S]
-        elif isLeaf(node):
-            val = node.win()
-            move = None
-            res = None
-        else:
-            possiblemoves = node.successor(b, player)
-            value = []
+    transpositionTable = dict()
+    player = B.whoseTurn(start)
 
-            for move, res in possiblemoves:
-                val, _, _, = commenceMinimax(res)
-                value.append((val, move, res))
-
-            if node.isMaxNode():
-                val, move, res = maxValue(value)
-            elif node.isMinNode():
-                val, move, res = minValue(value)
+    def do_minimax(node, counter):
+        if counter > 0:
+            counter -= 1
+            s = B.str(node)
+            if s in transpositionTable:
+                return transpositionTable[s]
+            elif B.isTerminal(node):
+                u = B.utility(node, player)
             else:
-                print("Fatal error occurred, something isn't collecting values")
-                return None
-        transpose[S] = val, move, res
-        return val, move, res
+                vs = [do_minimax(c, counter-1) for c in S.successor(node)]
+                if B.isMaxNode(node):
+                    u = max(vs)
+                elif B.isMinNode(node):
+                    u = min(vs)
+                else:
+                    print("something went wrong")
+                    return None
+            transpositionTable[s] = u
+            print(transpositionTable[s])
+            return u
+        else:
+            return 0
 
-    def maxValue(node):
-        print("we're in here, that's a relief")
-        maxValue, maxMove, maxState = ns[0]
-        for v,m,s in ns:
-            if v > maxValue:
-                maxValue, maxMove, maxState = v, m, s
-        return maxValue, maxMove, maxState
-
-    def minValue(node):
-        print("We're in here, thank cthulu")
-        minValue, minMove, minState = ns[0]
-        for v, m, s in ns:
-            if v < minValue:
-                minValue, minMove, minState = v, m, s
-        return minValue, minMove, minState
+    # result = do_minimax(start, 10)
+    # print(result)
+    return do_minimax(start, 10)
 
 
-    def isLeaf(node):
-        assert node is not None
-        return len(node.children) == 0
+# def playGame(New):
+#
+#     player = B.whoseTurn(New)
+#     B.selectPlayer(New)
+#     while B.utility(New, player) != (1 or 0 or -1):
+#         print("Player", B.whoseTurn(New), "Move")
+#         if B.getHuman(New) == B.whoseTurn(New):
+#             player = B.inputMove(New)
+#         m = Minimax(player)
+#         # print(m)
+#
 
+if __name__ == '__main__':
+    New = B.create()
+    # print(B.whoseTurn(New))
+    # playGame(New)
+    Minimax(New)
 
 

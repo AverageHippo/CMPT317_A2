@@ -2,11 +2,12 @@ from Board import Board as B
 from copy import deepcopy
 
 
-def successor(state, player):
-
+def successor(state):
     player1 = ["W1", "W2", "W3", "W4", "W5"]
     player2 = ["Q", "D1", "D2", "D3"]
     succssor = []
+
+    player = B.whoseTurn(state)
 
     if (player==1):
         for i in player1:
@@ -18,13 +19,15 @@ def successor(state, player):
                             continue
                         else:
                             possible = B.isPossibleMove(state, i, x+r,y+c )
-                            # print(possible)
                             if possible == True:
                                 print("The player - ", i,  x+r,y+c)
                                 newState = deepcopy(state)
                                 newMove = B.move(newState, i,x+r,y+c)
                                 if newMove == True:
                                     succssor.append(newState)
+        B.togglePlayer(state)
+        return succssor
+
     elif(player==2):
         for i in player2:
             isA, x, y = B.isAlive(state, i)
@@ -35,13 +38,14 @@ def successor(state, player):
                             continue
                         else:
                             possible = B.isPossibleMove(state, i, x+r,y+c )
-                            # print(possible)
                             if possible == True:
                                 print("The player - ", i,  x+r,y+c)
                                 newState = deepcopy(state)
                                 newMove = B.move(newState, i,x+r,y+c)
                                 if newMove == True:
                                     succssor.append(newState)
+        B.togglePlayer(state)
+        return succssor
     else:
         return []
 
@@ -50,10 +54,12 @@ def successor(state, player):
 if __name__ == '__main__':
 
     New = B.create()
-    B.move(New, "W1", 3,0)
-    B.move(New, "W1", 2,0)
-    successor(New, 1)
-
-
-
+    # B.move(New, "W1", 3,0)
+    # B.printboard(New)
+    # B.move(New, "W1", 2,0)
+    # B.printboard(New)
+    print(" ------", B.whoseTurn(New))
+    B.togglePlayer(New)
+    successor(New)
+    B.printboard(New)
 
