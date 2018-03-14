@@ -60,6 +60,29 @@ class Board:
 
 
 
+    def queenDistanceHeuristic(self):
+        p = self.translate("Q")
+        x,y = self.getIndex(p)
+        if p is None:
+            self.utility()
+        elif (y == 0):
+            dist = 4
+            return dist
+        elif (y == 1):
+            dist = 3
+            return dist
+        elif (y == 2):
+            dist = 2
+            return dist
+        elif (y == 3):
+            dist = 1
+            return dist
+        elif (y==4):
+            dist = 0
+            return dist
+        else:
+            print("Something did not go right here.")
+            return None
 
 
     def translate(self, piece):
@@ -292,13 +315,13 @@ class Board:
 
 
     def utility(self,player):
-        # if player == "Q" :
-        #     return 1
-        # if (player == "W1" or player == "W2" or player == "W3" or player == "W4" or player == "W5") :
-        #     return -1
-        # else:
-        #     return 0
-        return randint(0, 9)
+        if player == "Q" :
+            return 1
+        if (player == "W1" or player == "W2" or player == "W3" or player == "W4" or player == "W5") :
+            return -1
+        else:
+            return 0
+        # return randint(0, 9)
 
 
     def isTerminal(self):
