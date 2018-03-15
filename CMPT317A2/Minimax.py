@@ -1,6 +1,8 @@
 from Board import Board as B
 import Successor as S
+import sys
 
+infinity = float('inf')
 def Minimax(start):
 
     transpositionTable = dict()
@@ -11,8 +13,8 @@ def Minimax(start):
         if s in transpositionTable:
             return transpositionTable[s]
         elif B.isTerminal(node) or counter <= 0:
-            val= B.utility(node, player)
-            # val = B.queenDistanceHeuristic(node)
+            #val= B.utility(node, player)
+            val = B.queenDistanceHeuristic(node)
             res_state = None
         else:
             possibilities = S.successor(node)
@@ -72,18 +74,58 @@ def playGame(New):
             player = B.inputMove(New)
         m = Minimax(player)
         # print(m)
-#
+
+def AlphaBeta(node, counter):
+    def Max(alpha, beta, counter):
+        v = None
+        if B.isTerminal(node) or counter <= 0:
+            v = B.util(node)
+        possibleMoves = S.successor(node)
+        v = -infinity
+        for i in possibleMoves:
+            v = max(v, Min(alpha, beta, counter-1))
+            if beta <= v:
+                return v
+            alpha = max(alpha, v)
+        return v
+
+    def Min(alpha, beta, counter):
+        if B.isTerminal(node) or counter <= 0:
+           v = B.util(node)
+        possibleMoves = S.successor(node)
+        v = infinity
+        for i in possibleMoves:
+            v = min(v, Max(alpha, beta, counter-1))
+            if alpha >= v:
+                return v
+            else:
+                alpha = min(beta, v, counter)
+        return v
+    score = -infinity
+    beta = infinity
+    bestMove = None
+    for i in S.successor(node):
+        v = (Min(score, beta, counter-1))
+        if v > score:
+            score = v
+            bestMove = i
+    return bestMove
+
+
+
+
 
 if __name__ == '__main__':
+    sys.setrecursionlimit(1000000)
     New = B.create()
     # B.togglePlayer(New)
     # print(B.whoseTurn(New))
     # playGame(New)
-    for i in range(1, 10):
-        x,y = Minimax(New)
+    for i in range(1):
+        x,y = AlphaBeta(New, 2)
         # B.printboard(y)
         #B.togglePlayer(New)
-        x1,New = Minimax(y)
+        x1,New = AlphaBeta(y, 2)
         B.printboard(New)
 
 

@@ -309,11 +309,11 @@ class Board:
 
     def queenDistanceHeuristic(self):
         p = self.translate("Q")
+        if p is None:
+            return None
         x, y = self.getIndex(p)
         try:
-            if p is None:
-                return self.utility()
-            elif (y==0):
+            if (y==0):
                 dist = 4
                 return dist
             elif (y==1):
@@ -395,11 +395,11 @@ class Board:
 
 
 
-    def util(self, player):
-        if self.board[3][0] == "D1":
-            return 0
-        else:
-            return randint(5,9)
+    def util(self):
+        # if self.board[3][0] == "D1":
+        #     return 0
+        # else:
+        return randint(0,9)
 
 
     def isTerminal(self):
