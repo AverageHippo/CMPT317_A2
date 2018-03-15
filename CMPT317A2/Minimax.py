@@ -11,8 +11,8 @@ def Minimax(start):
         if s in transpositionTable:
             return transpositionTable[s]
         elif B.isTerminal(node) or counter <= 0:
-            # val= B.utility(node, player)
-            val = B.queenDistanceHeuristic(node)
+            val= B.utility(node, player)
+            # val = B.queenDistanceHeuristic(node)
             res_state = None
         else:
             possibilities = S.successor(node)
@@ -20,7 +20,7 @@ def Minimax(start):
             for res_state in possibilities:
                 val, _ = do_minimax(res_state, counter-1)
                 values.append( (val, res_state) )
-                B.printboard(res_state)
+                # B.printboard(res_state)
             if B.isMaxNode(node):
                 val,res_state = argmax(values)
             elif B.isMinNode(node):
@@ -57,9 +57,7 @@ def argmin(ns):
     """
     minv,mins = ns[0]
     for v,s in ns:
-        if v or minv == None:
-            return None
-        elif v < minv:
+        if v < minv:
             minv,mins = v,s
     return minv,mins
 
@@ -72,23 +70,20 @@ def playGame(New):
         print("Player", B.whoseTurn(New), "Move")
         if B.getHuman(New) == B.whoseTurn(New):
             player = B.inputMove(New)
-        m, n = Minimax(player)
-        B.printboard(n)
-
+        m = Minimax(player)
+        # print(m)
+#
 
 if __name__ == '__main__':
     New = B.create()
-    #B.printboard(New)
     # B.togglePlayer(New)
     # print(B.whoseTurn(New))
-    #playGame(New)
-    for i in range(1,20):
+    # playGame(New)
+    for i in range(1, 10):
         x,y = Minimax(New)
-        B.togglePlayer(New)
-        x1, New = Minimax(y)
-    # x,y = Minimax(New)
-    # B.printboard(y)
-    # x1,y1 = Minimax(y)
-    # B.printboard(y1)
+        # B.printboard(y)
+        #B.togglePlayer(New)
+        x1,New = Minimax(y)
+        B.printboard(New)
 
 

@@ -29,7 +29,7 @@ class Board:
         self.board[4][2] = self.p2p3
         self.board[4][3] = self.p2p4
         self.board[4][4] = self.p2p5
-        self.turn = player
+        self.turn = 1
         self.human = None
         self.AI = None
 
@@ -60,29 +60,6 @@ class Board:
 
 
 
-    def queenDistanceHeuristic(self):
-        p = self.translate("Q")
-        x,y = self.getIndex(p)
-        if p is None:
-            self.utility()
-        elif (y == 0):
-            dist = 4
-            return dist
-        elif (y == 1):
-            dist = 3
-            return dist
-        elif (y == 2):
-            dist = 2
-            return dist
-        elif (y == 3):
-            dist = 1
-            return dist
-        elif (y==4):
-            dist = 0
-            return dist
-        else:
-            print("Something did not go right here.")
-            return None
 
 
     def translate(self, piece):
@@ -152,7 +129,7 @@ class Board:
                         or (positionX == i - 1 and positionY == j+1)\
                         and ((currentPlace is "Q")  or (currentPlace is "D1") or (currentPlace is "D2") or (currentPlace is "D3")):
                     self.capture(p, positionX, positionY, currentPlace)
-                    # print("eating Q or D")
+                    print("eating Q or D")
                     return True
                 else:
                     return False
@@ -170,18 +147,22 @@ class Board:
                 return True
             elif opening == False and (currentPlace is "Q" or currentPlace is "D1" or currentPlace is "D2" or
                                        currentPlace is  "D3" or currentPlace is  "D"):
-                # print("Q is trying to eat other pawns in same player. ")
+                print("Q is trying to eat other pawns in same player. ")
                 return False
 
             elif opening==False and (currentPlace is "W" or currentPlace is "W1" or currentPlace is "W2" or
                                        currentPlace is  "W3" or currentPlace is  "W4" or currentPlace is "W5"):
                 self.capture(p, positionX, positionY, currentPlace)
-                # print("eating W")
+                print("eating W")
                 return True
             else:
                 return False
+
+
         # Possible moves for Dragon
         elif p == "D1" or  "D2" or "D3"  :
+
+
 
             if (positionX == i + 1 or positionX == i-1 or positionX == i ) \
                     and (positionY == j-1 or positionY == j+1 or positionY ==j)\
@@ -191,12 +172,12 @@ class Board:
                 return True
             elif opening == False and currentPlace is "Q" or currentPlace is "D1" or currentPlace is "D2" or currentPlace is "D3" or\
                     currentPlace is "D":
-                # print("Dragon is trying to eat other pawns in same player. ")
+                print("Dragon is trying to eat other pawns in same player. ")
                 return False
             elif opening==False and (currentPlace is "W" or currentPlace is "W1" or currentPlace is "W2" or
                                        currentPlace is  "W3" or currentPlace is  "W4" or currentPlace is "W5"):
                 self.capture(p, positionX, positionY, currentPlace)
-                # print("eating W")
+                print("eating W")
                 return True
             else:
                 return False
@@ -276,16 +257,15 @@ class Board:
     def move(self, piecee, positionX, positionY):
         p = self.translate(piecee)
         i ,j = self.getIndex(p)
-        alive , _,_ = self.isAlive(p)
 
-        if self.isPossibleMove(p,positionX,positionY) == True and (alive== True):
-            # print("Move is possible, Moving :", p, "to index : ", positionX,positionY )
+        if self.isPossibleMove(p,positionX,positionY) == True:
+            print("Move is possible, Moving :", p, "to index : ", positionX,positionY )
             self.board[i][j] = "*"
             self.board[positionX][positionY] = p
             return True
 
         else:
-            # print("The Move you requested is not possible")
+            print("The Move you requested is not possible")
             return False
 
 
@@ -313,15 +293,113 @@ class Board:
             return False
 
 
+    # def pieceNumberHeuristic(self):
+
+    def getPieceValue(self, piece):
+
+        if (piece == "Q"):
+            pieceValue = 10
+            return pieceValue
+        if (piece == "D1" or "D2" or "D3"):
+            pieceValue = 5
+            return pieceValue
+        elif (piece == "W1" or "W2" or "W3" or "W4" "W5"):
+            pieceValue = 3
+            return pieceValue
+
+    def queenDistanceHeuristic(self):
+        p = self.translate("Q")
+        x, y = self.getIndex(p)
+        try:
+            if p is None:
+                return self.utility()
+            elif (y==0):
+                dist = 4
+                return dist
+            elif (y==1):
+                dist = 3
+                return dist
+            elif (y==2):
+                dist = 2
+                return dist
+            elif (y==3):
+                dist = 1
+                return dist
+            elif (y==4):
+                dist = 0
+                return dist
+        except: TypeError
+        # try:
+        #     if (p != None):
+        #         dist = 4 - y
+        #         if not (dist <0 and dist >4 ):
+        #             return dist
+        # except: TypeError
+        # return randint(0, 9)
+
 
     def utility(self,player):
-        if player == "Q" :
-            return 1
-        if (player == "W1" or player == "W2" or player == "W3" or player == "W4" or player == "W5") :
-            return -1
-        else:
+
+        player1 = ["W1", "W2", "W3", "W4", "W5"]
+        player2 = ["D1", "D2", "D3"]
+        player3 = ["Q"]
+
+        def distance(x,y):
+            return sum(abs(x-y))
+
+        white_score = 20
+        dragons_score = -15
+
+        whitesx = []
+        whitesy = []
+        dragons = []
+        queensx = 0
+        queensy = 0
+
+        for p in player1:
+            x,y = self.getIndex(p)
+            whitesx.append(x)
+            whitesy.append(y)
+
+        for p1 in player2:
+            x,y = self.getIndex(p1)
+            dragons.append((x,y))
+
+        for p2 in player3:
+            x,y = self.getIndex(p2)
+            queensx = x
+            queensy = y
+
+
+        def threats():
+            threats = 0
+            for x in whitesx:
+                for y in whitesy:
+                    if (x,y) == self.getIndex("Q"):
+                        threats = threats+1
+                    return threats
+
+        # print("HELLLLOOO", distance(10, 8))
+
+        whites_alive = len(player1) * white_score
+        dragons_alive = len(player2) * dragons_score
+
+        # player1_g = (distance(queensx, queensy) ) * 9
+        # player2_g = ( ( ( -.5 * sum(distance(w, queensx) for w in whitesx) ) * 9 +
+        #                  ( -.5 * sum(distance(w, queensy) for w in whitesx) ) * 9 ) / 2)
+
+        threats_per = threats() * 500
+        value = whites_alive + dragons_alive   + threats_per
+
+        return value
+
+
+
+    def util(self, player):
+        if self.board[3][0] == "D1":
             return 0
-        # return randint(0, 9)
+        else:
+            return randint(5,9)
 
 
     def isTerminal(self):
@@ -346,8 +424,8 @@ class Board:
             self.turn = 2
         else:
             self.turn = 1
-
-        return self.turn
+        #
+        # return self.turn
 
 
     def isMinNode(self):
