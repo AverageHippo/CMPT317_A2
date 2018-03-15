@@ -76,10 +76,11 @@ def playGame(New):
         # print(m)
 
 def AlphaBeta(node, counter):
+
     def Max(alpha, beta, counter):
         v = None
         if B.isTerminal(node) or counter <= 0:
-            v = B.util(node)
+            return  B.queenDistanceHeuristic(node)
         possibleMoves = S.successor(node)
         v = -infinity
         for i in possibleMoves:
@@ -91,7 +92,7 @@ def AlphaBeta(node, counter):
 
     def Min(alpha, beta, counter):
         if B.isTerminal(node) or counter <= 0:
-           v = B.util(node)
+           return  B.queenDistanceHeuristic(node)
         possibleMoves = S.successor(node)
         v = infinity
         for i in possibleMoves:
@@ -121,11 +122,11 @@ if __name__ == '__main__':
     # B.togglePlayer(New)
     # print(B.whoseTurn(New))
     # playGame(New)
-    for i in range(1):
-        x,y = AlphaBeta(New, 2)
+    while B.isTerminal(New) == False:
+        y = AlphaBeta(New, 2)
         # B.printboard(y)
-        #B.togglePlayer(New)
-        x1,New = AlphaBeta(y, 2)
+        B.togglePlayer(New)
+        New = AlphaBeta(y, 2)
         B.printboard(New)
 
 

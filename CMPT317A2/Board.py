@@ -289,8 +289,7 @@ class Board:
             return True, x, y
 
         except TypeError:
-            print("No such pawn exists")
-            return False
+            return False, -1, -1
 
 
     # def pieceNumberHeuristic(self):
@@ -308,27 +307,25 @@ class Board:
             return pieceValue
 
     def queenDistanceHeuristic(self):
-        p = self.translate("Q")
-        if p is None:
-            return None
-        x, y = self.getIndex(p)
-        try:
-            if (y==0):
-                dist = 4
-                return dist
-            elif (y==1):
-                dist = 3
-                return dist
-            elif (y==2):
-                dist = 2
-                return dist
-            elif (y==3):
-                dist = 1
-                return dist
-            elif (y==4):
-                dist = 0
-                return dist
-        except: TypeError
+        x, y = self.getIndex("Q")
+        if (y==0):
+            dist = 0
+            return dist
+        elif (y==1):
+            dist = 1
+            return dist
+        elif (y==2):
+            dist = 2
+            return dist
+        elif (y==3):
+            dist = 3
+            return dist
+        elif (y==4):
+            dist = 4
+            return dist
+        else:
+            return randint(0,9)
+
         # try:
         #     if (p != None):
         #         dist = 4 - y
@@ -338,7 +335,7 @@ class Board:
         # return randint(0, 9)
 
 
-    def utility(self,player):
+    def utility(self):
 
         player1 = ["W1", "W2", "W3", "W4", "W5"]
         player2 = ["D1", "D2", "D3"]
@@ -384,9 +381,9 @@ class Board:
         whites_alive = len(player1) * white_score
         dragons_alive = len(player2) * dragons_score
 
-        # player1_g = (distance(queensx, queensy) ) * 9
-        # player2_g = ( ( ( -.5 * sum(distance(w, queensx) for w in whitesx) ) * 9 +
-        #                  ( -.5 * sum(distance(w, queensy) for w in whitesx) ) * 9 ) / 2)
+        player1_g = (distance(queensx, queensy) ) * 9
+        player2_g = ( ( ( -.5 * sum(distance(w, queensx) for w in whitesx) ) * 9 +
+                         ( -.5 * sum(distance(w, queensy) for w in whitesx) ) * 9 ) / 2)
 
         threats_per = threats() * 500
         value = whites_alive + dragons_alive   + threats_per
@@ -403,7 +400,11 @@ class Board:
 
 
     def isTerminal(self):
+        x , _, _ = self.isAlive("Q")
+
         if(self.board[4][0] or self.board[4][1] or self.board[4][2] or self.board[4][3] or self.board[4][4]) == "Q":
+            return True
+        elif ( x == False):
             return True
         elif (self.board[0][0] or self.board[0][1] or self.board[0][2] or self.board[0][3] or self.board[0][4]) == "W1":
             return True
